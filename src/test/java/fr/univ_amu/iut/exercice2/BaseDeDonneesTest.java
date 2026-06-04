@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.sql.DataSource;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -28,7 +27,7 @@ class BaseDeDonneesTest {
     return source;
   }
 
-  @Disabled("Retire cette annotation pour activer le test")
+  // @Disabled("Retire cette annotation pour activer le test")
   @Test
   void la_base_initialisee_contient_les_quatre_taxons() throws SQLException {
     DataSource source = baseInitialisee();
@@ -41,7 +40,7 @@ class BaseDeDonneesTest {
     }
   }
 
-  @Disabled("Retire cette annotation pour activer le test")
+  // @Disabled("Retire cette annotation pour activer le test")
   @Test
   void le_site_du_fil_rouge_est_present() throws SQLException {
     DataSource source = baseInitialisee();
@@ -55,7 +54,7 @@ class BaseDeDonneesTest {
     }
   }
 
-  @Disabled("Retire cette annotation pour activer le test")
+  // @Disabled("Retire cette annotation pour activer le test")
   @Test
   void les_cles_etrangeres_sont_actives() throws SQLException {
     DataSource source = baseInitialisee();
@@ -63,7 +62,8 @@ class BaseDeDonneesTest {
     try (Connection connexion = source.getConnection();
         Statement st = connexion.createStatement()) {
       // observation.code_taxon est une clé étrangère vers taxon(code).
-      // 'ZZZZZZ' n'existe pas : l'insertion doit être refusée SI les clés étrangères sont activées.
+      // 'ZZZZZZ' n'existe pas : l'insertion doit être refusée SI les clés étrangères
+      // sont activées.
       assertThatThrownBy(
               () ->
                   st.execute(
