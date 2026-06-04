@@ -78,6 +78,20 @@ public class SiteDao {
     // - lier les 5 paramètres dans l'ordre des colonnes (setString) ;
     // - exécuter avec executeUpdate() ;
     // - envelopper toute SQLException dans une DataAccessException.
+    try (Connection connection = source.getConnection();
+        PreparedStatement ps = connection.prepareStatement(sql)) {
+
+      ps.setString(1, site.numeroCarre());
+      ps.setString(2, site.nomConvivial());
+      ps.setString(3, site.protocole());
+      ps.setString(4, site.commentaire());
+      ps.setString(5, site.dateCreation());
+
+      ps.executeUpdate();
+
+    } catch (SQLException e) {
+      throw new DataAccessException("Impossible d'", e);
+    }
   }
 
   /** Met à jour les champs d'un site existant (identifié par son numéro de carré). */
@@ -87,7 +101,22 @@ public class SiteDao {
             + " WHERE numero_carre = ?";
 
     // TODO exercice 4 : mettre à jour le site (mêmes étapes, executeUpdate).
-    // Attention à l'ordre des paramètres : le numero_carre est le DERNIER (clause WHERE).
+    // Attention à l'ordre des paramètres : le numero_carre est le DERNIER (clause
+    // WHERE).
+
+    try (Connection connection = source.getConnection();
+        PreparedStatement ps = connection.prepareStatement(sql)) {
+
+      ps.setString(5, site.numeroCarre());
+      ps.setString(1, site.nomConvivial());
+      ps.setString(2, site.protocole());
+      ps.setString(3, site.commentaire());
+      ps.setString(4, site.dateCreation());
+
+      ps.executeUpdate();
+    } catch (SQLException e) {
+      throw new DataAccessException("Impossible d'", e);
+    }
   }
 
   /** Supprime le site identifié par son numéro de carré. */
@@ -95,6 +124,13 @@ public class SiteDao {
     String sql = "DELETE FROM site WHERE numero_carre = ?";
 
     // TODO exercice 4 : supprimer le site (PreparedStatement + executeUpdate).
+    try (Connection connection = source.getConnection();
+        PreparedStatement ps = connection.prepareStatement(sql)) {
+      ps.setString(1, numeroCarre);
+      ps.executeUpdate();
+    } catch (SQLException e) {
+      throw new DataAccessException("Impossible supprimer le site " + numeroCarre, e);
+    }
   }
 
   private static Site depuis(ResultSet rs) throws SQLException {
