@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import javax.sql.DataSource;
 
@@ -51,19 +52,44 @@ public class ImportPassageService {
 
     long passageId = -1;
 
-    // TODO exercice 6 : réaliser l'import dans une transaction et renseigner `passageId`.
-    //
-    // 1. Ouvrir une connexion, puis connexion.setAutoCommit(false).
-    // 2. Dans un try :
-    //    - insérer le passage (prepareStatement(sqlPassage, Statement.RETURN_GENERATED_KEYS),
-    //      positionner les paramètres, executeUpdate) ;
-    //    - récupérer l'id généré : keys.next(); passageId = keys.getLong(1) ;
-    //    - pour chaque observation, l'insérer avec ce passageId ;
-    //    - connexion.commit().
-    // 3. catch (SQLException) : connexion.rollback() puis lever une DataAccessException.
-    // 4. finally : refermer la connexion.
-    //
-    // Astuce : ouvrez la connexion AVANT le try afin de pouvoir faire rollback dans le catch.
+    Connection connection = null;
+    try {
+      connection = source.getConnection();
+      connection.setAutoCommit(false);
+
+      try (PreparedStatement ps =
+          connection.prepareStatement(sqlPassage, Statement.RETURN_GENERATED_KEYS)) {
+        ps.setString(1, numeroCarre);
+        ps.setString(2, codePoint);
+        ps.setInt(3, numeroPassage);
+        ps.setInt(4, annee);
+        ps.executeUpdate();
+
+        try (ResultSet keys = ps.getGeneratedKeys()) {
+          keys.next();
+          passageId = keys.getLong(1);
+        }
+      }
+
+      try (PreparedStatement psObs = connection.prepareStatement(sqlObservation)) {
+        for (ObservationAImporter obs : observations) {
+          psObs.setLong(1, passageId);
+          psObs.setDouble(2, obs.tempsDebut());
+          psObs.setDouble(3, obs.tempsFin());
+          psObs.setInt(4, obs.frequenceMediane());
+          psObs.setString(5, obs.codeTaxon());
+          psObs.setDouble(6, obs.probabilite());
+          psObs.executeUpdate();
+        }
+      }
+
+      connection.commit();
+    } catch (SQLException e) {
+      annulerSilencieusement(connection);
+      throw new DataAccessException("Impossible d'importer le passage", e);
+    } finally {
+      fermerSilencieusement(connection);
+    }
 
     return passageId;
   }
