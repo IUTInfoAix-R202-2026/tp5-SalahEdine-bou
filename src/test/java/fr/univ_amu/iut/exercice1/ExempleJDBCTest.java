@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -16,7 +15,7 @@ import org.junit.jupiter.api.Test;
  */
 class ExempleJDBCTest {
 
-  @Disabled("Retire cette annotation pour activer le test")
+  // @Disabled("Retire cette annotation pour activer le test")
   @Test
   void la_lecture_renvoie_les_quatre_taxons_du_fil_rouge() throws SQLException {
     try (Connection connexion = DriverManager.getConnection(ExempleJDBC.URL_MEMOIRE)) {
@@ -34,7 +33,7 @@ class ExempleJDBCTest {
     }
   }
 
-  @Disabled("Retire cette annotation pour activer le test")
+  // @Disabled("Retire cette annotation pour activer le test")
   @Test
   void chaque_ligne_a_le_format_code_tiret_nom() throws SQLException {
     try (Connection connexion = DriverManager.getConnection(ExempleJDBC.URL_MEMOIRE)) {
