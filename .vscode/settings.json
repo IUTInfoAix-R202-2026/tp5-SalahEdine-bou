@@ -13,11 +13,7 @@
         "**/*.iml": true
     },
     "github.copilot.enable": {
-        "*": false,
-        "plaintext": false,
-        "markdown": false,
-        "scminput": false,
-        "java": false
+        "*": false
     },
     "chat.tools.terminal.outputLocation": "terminal",
     "chat.tools.terminal.autoApprove": {

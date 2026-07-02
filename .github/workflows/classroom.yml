@@ -35,7 +35,7 @@ jobs:
     if: github.repository != 'IUTInfoAix-R202/template-tp-javafx'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           # Historique complet pour que `git diff $BEFORE..HEAD` fonctionne
           # dans le step de scope (sans ça, on tomberait sur ALL à chaque push).
@@ -63,7 +63,7 @@ jobs:
 
       - name: Restaurer le cache des rapports Surefire
         id: surefire_cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: target/surefire-reports
           key: surefire-${{ github.ref_name }}-${{ github.sha }}
@@ -474,7 +474,7 @@ jobs:
 
       - name: Sauvegarder le cache des rapports Surefire
         if: always()
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: target/surefire-reports
           key: surefire-${{ github.ref_name }}-${{ github.sha }}

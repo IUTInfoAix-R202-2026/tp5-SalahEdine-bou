@@ -26,26 +26,26 @@
         <!-- Plugin versions -->
         <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
         <maven.compiler.plugin.version>3.15.0</maven.compiler.plugin.version>
-        <maven.surefire.plugin.version>3.5.5</maven.surefire.plugin.version>
+        <maven.surefire.plugin.version>3.5.6</maven.surefire.plugin.version>
         <maven.shade.plugin.version>3.6.2</maven.shade.plugin.version>
         <spotless.maven.plugin.version>3.4.0</spotless.maven.plugin.version>
         <google.java.format.version>1.35.0</google.java.format.version>
         <git.build.hook.plugin.version>3.6.0</git.build.hook.plugin.version>
 
         <!-- Persistance et injection de dependances -->
-        <sqlite.jdbc.version>3.49.1.0</sqlite.jdbc.version>
+        <sqlite.jdbc.version>3.53.1.0</sqlite.jdbc.version>
         <guice.version>7.0.0</guice.version>
         <hikaricp.version>6.3.0</hikaricp.version>
         <!-- SLF4J : doit rester aligne sur le slf4j-api tire transitivement par
              HikariCP (1.7.36). Le binding NOP supprime le message d'init SLF4J. -->
-        <slf4j.version>1.7.36</slf4j.version>
+        <slf4j.version>2.0.18</slf4j.version>
 
         <!-- Test dependencies versions -->
-        <junit.jupiter.version>6.0.3</junit.jupiter.version>
+        <junit.jupiter.version>6.1.0</junit.jupiter.version>
         <assertj.version>3.27.7</assertj.version>
         <testfx.version>4.0.18</testfx.version>
         <mockito.version>5.23.0</mockito.version>
-        <approvaltests.version>30.1.0</approvaltests.version>
+        <approvaltests.version>30.1.1</approvaltests.version>
     </properties>
 
     <dependencies>
